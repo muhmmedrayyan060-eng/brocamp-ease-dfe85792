@@ -25,7 +25,10 @@ const Landing = () => {
       {/* Header */}
       <header className="border-b border-border/50 backdrop-blur-md relative z-10 bg-background/60">
         <div className="container mx-auto px-4 py-6">
-          <img src={logo} alt="Brototype" className="h-14 animate-fade-in" />
+          <div className="flex items-center gap-4 animate-fade-in">
+            <img src={logo} alt="Brototype" className="h-14" />
+            <span className="text-2xl font-bold text-foreground tracking-tight">BrocampSupport</span>
+          </div>
         </div>
       </header>
 
