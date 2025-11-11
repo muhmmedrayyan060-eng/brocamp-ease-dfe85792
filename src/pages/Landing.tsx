@@ -3,21 +3,34 @@ import { Card } from "@/components/ui/card";
 import { useNavigate } from "react-router-dom";
 import { UserCircle, Shield } from "lucide-react";
 import logo from "@/assets/logo.png";
+import heroBg from "@/assets/hero-bg.png";
 
 const Landing = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen bg-background flex flex-col">
+    <div className="min-h-screen flex flex-col relative">
+      {/* Background Image with Overlay */}
+      <div 
+        className="absolute inset-0 z-0"
+        style={{
+          backgroundImage: `url(${heroBg})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat'
+        }}
+      >
+        <div className="absolute inset-0 bg-background/80 backdrop-blur-sm" />
+      </div>
       {/* Header */}
-      <header className="border-b border-border">
+      <header className="border-b border-border relative z-10">
         <div className="container mx-auto px-4 py-4">
           <img src={logo} alt="Brototype" className="h-12" />
         </div>
       </header>
 
       {/* Hero Section */}
-      <main className="flex-1 flex items-center justify-center px-4 py-12">
+      <main className="flex-1 flex items-center justify-center px-4 py-12 relative z-10">
         <div className="max-w-5xl w-full">
           <div className="text-center mb-12">
             <h1 className="text-5xl md:text-6xl font-bold mb-4 text-foreground">
@@ -78,7 +91,7 @@ const Landing = () => {
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-border py-6">
+      <footer className="border-t border-border py-6 relative z-10">
         <div className="container mx-auto px-4 text-center text-muted-foreground">
           <p>© 2025 Brototype. Brother You Never Had.</p>
         </div>
