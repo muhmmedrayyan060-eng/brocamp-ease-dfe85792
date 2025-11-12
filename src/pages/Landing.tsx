@@ -20,14 +20,25 @@ const Landing = () => {
           backgroundRepeat: 'no-repeat'
         }}
       >
-        <div className="absolute inset-0 bg-background/80 backdrop-blur-sm" />
+        <div className="absolute inset-0 bg-background/40 backdrop-blur-[2px]" />
       </div>
       {/* Header */}
       <header className="border-b border-border/50 backdrop-blur-md relative z-10 bg-background/60">
         <div className="container mx-auto px-4 py-6">
-          <div className="flex items-center gap-4 animate-fade-in">
-            <img src={logo} alt="Brototype" className="h-14" />
-            <span className="text-2xl font-bold text-foreground tracking-tight">BrocampSupport</span>
+          <div className="flex items-center justify-between animate-fade-in">
+            <div className="flex items-center gap-4">
+              <img src={logo} alt="Brototype" className="h-14" />
+              <span className="text-2xl font-bold text-foreground tracking-tight">BrocampSupport</span>
+            </div>
+            <Button
+              onClick={() => {
+                document.querySelector('main')?.scrollIntoView({ behavior: 'smooth' });
+              }}
+              className="bg-accent hover:bg-accent/90 text-accent-foreground font-semibold"
+              size="lg"
+            >
+              Get Started
+            </Button>
           </div>
         </div>
       </header>

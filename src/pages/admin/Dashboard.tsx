@@ -90,6 +90,7 @@ const AdminDashboard = () => {
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <div className="flex items-center gap-4">
             <img src={logo} alt="Brototype" className="h-12" />
+            <span className="text-2xl font-bold text-foreground tracking-tight">BrocampSupport</span>
             <Badge className="bg-accent text-accent-foreground">Admin</Badge>
           </div>
           <Button

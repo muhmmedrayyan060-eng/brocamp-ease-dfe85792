@@ -11,10 +11,18 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, CheckCircle } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import logo from "@/assets/logo.png";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 
 const categories = [
   { id: "CAT01", name: "Technical" },
@@ -29,6 +37,8 @@ const NewComplaint = () => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [category, setCategory] = useState("");
+  const [successDialogOpen, setSuccessDialogOpen] = useState(false);
+  const [complaintId, setComplaintId] = useState("");
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -38,9 +48,11 @@ const NewComplaint = () => {
       return;
     }
 
-    // Simulate complaint submission
+    // Simulate complaint submission and generate ID
+    const newComplaintId = "CMP" + Math.floor(Math.random() * 9000 + 1000);
+    setComplaintId(newComplaintId);
     toast.success("Complaint submitted successfully!");
-    navigate("/student/dashboard");
+    setSuccessDialogOpen(true);
   };
 
   return (
@@ -56,7 +68,10 @@ const NewComplaint = () => {
           >
             <ArrowLeft className="w-5 h-5" />
           </Button>
-          <img src={logo} alt="Brototype" className="h-12" />
+          <div className="flex items-center gap-4">
+            <img src={logo} alt="Brototype" className="h-12" />
+            <span className="text-2xl font-bold text-foreground tracking-tight">BrocampSupport</span>
+          </div>
         </div>
       </header>
 
@@ -129,6 +144,43 @@ const NewComplaint = () => {
           </form>
         </Card>
       </main>
+
+      <Dialog open={successDialogOpen} onOpenChange={setSuccessDialogOpen}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <div className="flex justify-center mb-4">
+              <div className="w-16 h-16 rounded-full bg-green-100 flex items-center justify-center animate-scale-in">
+                <CheckCircle className="w-10 h-10 text-green-600" />
+              </div>
+            </div>
+            <DialogTitle className="text-center text-2xl">Complaint Submitted!</DialogTitle>
+            <DialogDescription className="text-center space-y-2">
+              <p>Your complaint has been successfully submitted.</p>
+              <p className="font-semibold text-foreground">Complaint ID: {complaintId}</p>
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter className="flex-col sm:flex-col gap-2">
+            <Button
+              onClick={() => navigate(`/student/complaint/${complaintId}`)}
+              className="w-full bg-accent hover:bg-accent/90 text-accent-foreground"
+            >
+              View Complaint
+            </Button>
+            <Button
+              variant="outline"
+              onClick={() => {
+                setSuccessDialogOpen(false);
+                setTitle("");
+                setDescription("");
+                setCategory("");
+              }}
+              className="w-full"
+            >
+              Submit Another
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
