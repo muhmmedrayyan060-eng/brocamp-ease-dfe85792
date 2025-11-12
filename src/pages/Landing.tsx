@@ -20,7 +20,7 @@ const Landing = () => {
           backgroundRepeat: 'no-repeat'
         }}
       >
-        <div className="absolute inset-0 bg-background/10" />
+        <div className="absolute inset-0 bg-background/80 backdrop-blur-sm" />
       </div>
       {/* Header */}
       <header className="border-b border-border/50 backdrop-blur-md relative z-10 bg-background/60">
