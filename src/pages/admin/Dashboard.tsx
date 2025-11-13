@@ -12,6 +12,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import Footer from "@/components/Footer";
 
 const mockComplaints = [
   {
@@ -84,7 +85,7 @@ const AdminDashboard = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background flex flex-col">
       {/* Header */}
       <header className="border-b border-border bg-card">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
@@ -212,6 +213,8 @@ const AdminDashboard = () => {
           ))}
         </div>
       </main>
+
+      <Footer />
     </div>
   );
 };
