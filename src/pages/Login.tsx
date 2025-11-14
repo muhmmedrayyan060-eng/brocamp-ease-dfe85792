@@ -8,6 +8,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ArrowLeft, Mail, Phone } from "lucide-react";
 import { toast } from "sonner";
 import logo from "@/assets/logo.png";
+import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/input-otp";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -123,16 +124,18 @@ const Login = () => {
           </Tabs>
 
           {otpSent && (
-            <div className="space-y-2 mt-4">
-              <Label htmlFor="otp">Enter OTP</Label>
-              <Input
-                id="otp"
-                type="text"
-                placeholder="Enter 6-digit OTP"
-                maxLength={6}
-                value={otp}
-                onChange={(e) => setOtp(e.target.value)}
-              />
+            <div className="flex flex-col items-center gap-4 mt-4">
+              <Label htmlFor="otp">Enter 6-digit OTP</Label>
+              <InputOTP maxLength={6} value={otp} onChange={(value) => setOtp(value)}>
+                <InputOTPGroup>
+                  <InputOTPSlot index={0} />
+                  <InputOTPSlot index={1} />
+                  <InputOTPSlot index={2} />
+                  <InputOTPSlot index={3} />
+                  <InputOTPSlot index={4} />
+                  <InputOTPSlot index={5} />
+                </InputOTPGroup>
+              </InputOTP>
             </div>
           )}
 

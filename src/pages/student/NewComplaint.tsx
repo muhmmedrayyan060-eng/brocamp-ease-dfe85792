@@ -100,7 +100,19 @@ const NewComplaint = () => {
     // Simulate complaint submission
     const newComplaintId = `CMP${Math.floor(1000 + Math.random() * 9000)}`;
     setComplaintId(newComplaintId);
+    toast.success("Complaint submitted successfully! ID: " + newComplaintId);
     setSuccessDialogOpen(true);
+    
+    // Reset form
+    setTitle("");
+    setDescription("");
+    setCategory("");
+    setPhoneNumber("");
+    setStudentName("");
+    setIdNumber("");
+    setPhoto(null);
+    setPhotoPreview("");
+    setAudioBlob(null);
   };
 
   return (
