@@ -31,9 +31,7 @@ const Landing = () => {
               <span className="text-2xl font-bold text-foreground tracking-tight">BrocampSupport</span>
             </div>
             <Button
-              onClick={() => {
-                document.querySelector('main')?.scrollIntoView({ behavior: 'smooth' });
-              }}
+              onClick={() => navigate("/login")}
               className="bg-accent hover:bg-accent/90 text-accent-foreground font-semibold"
               size="lg"
             >
@@ -121,7 +119,7 @@ const Landing = () => {
               <h3 className="text-lg font-semibold text-foreground">Quick Links</h3>
               <nav className="flex flex-col space-y-2">
                 <a href="#" className="text-muted-foreground hover:text-accent transition-colors text-sm">About Us</a>
-                <a href="#" className="text-muted-foreground hover:text-accent transition-colors text-sm">Support</a>
+                <button onClick={() => navigate("/login")} className="text-muted-foreground hover:text-accent transition-colors text-sm text-left">Contact Support</button>
                 <a href="#" className="text-muted-foreground hover:text-accent transition-colors text-sm">Privacy Policy</a>
                 <a href="#" className="text-muted-foreground hover:text-accent transition-colors text-sm">Terms of Service</a>
               </nav>
