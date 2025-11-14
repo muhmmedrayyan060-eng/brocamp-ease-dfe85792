@@ -194,16 +194,30 @@ const Dashboard = () => {
                     <span>{complaint.created_at}</span>
                   </div>
                 </div>
-                {complaint.status === "Pending" && (
+                <div className="flex gap-2">
                   <Button
-                    variant="ghost"
-                    size="icon"
-                    onClick={(e) => handleDeleteClick(e, complaint.id, complaint.status)}
-                    className="text-destructive hover:text-destructive hover:bg-destructive/10"
+                    variant="outline"
+                    size="sm"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      navigate(`/student/complaint/${complaint.id}`);
+                    }}
+                    className="flex items-center gap-2"
                   >
-                    <Trash2 className="w-5 h-5" />
+                    <MessageSquare className="w-4 h-4" />
+                    Chat
                   </Button>
-                )}
+                  {complaint.status === "Pending" && (
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      onClick={(e) => handleDeleteClick(e, complaint.id, complaint.status)}
+                      className="text-destructive hover:text-destructive hover:bg-destructive/10"
+                    >
+                      <Trash2 className="w-5 h-5" />
+                    </Button>
+                  )}
+                </div>
               </div>
             </Card>
           ))}

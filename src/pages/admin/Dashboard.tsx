@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { LogOut, MessageSquare, Clock, CheckCircle, Filter } from "lucide-react";
+import { LogOut, MessageSquare, Clock, CheckCircle, Filter, Check } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import logo from "@/assets/logo.png";
 import { Badge } from "@/components/ui/badge";
@@ -12,6 +12,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { toast } from "sonner";
 import Footer from "@/components/Footer";
 
 const mockComplaints = [
@@ -51,8 +52,17 @@ const mockComplaints = [
 
 const AdminDashboard = () => {
   const navigate = useNavigate();
-  const [complaints] = useState(mockComplaints);
+  const [complaints, setComplaints] = useState(mockComplaints);
   const [statusFilter, setStatusFilter] = useState<string>("all");
+
+  const handleResolve = (complaintId: string) => {
+    setComplaints(
+      complaints.map((c) =>
+        c.id === complaintId ? { ...c, status: "Resolved" } : c
+      )
+    );
+    toast.success("Complaint marked as resolved");
+  };
 
   const filteredComplaints = statusFilter === "all" 
     ? complaints 
@@ -205,9 +215,27 @@ const AdminDashboard = () => {
                     <span>{complaint.created_at}</span>
                   </div>
                 </div>
-                <Button variant="outline" size="sm">
-                  View Details
-                </Button>
+                <div className="flex gap-2" onClick={(e) => e.stopPropagation()}>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => navigate(`/admin/complaint/${complaint.id}/chat`)}
+                    className="flex items-center gap-2"
+                  >
+                    <MessageSquare className="w-4 h-4" />
+                    Chat
+                  </Button>
+                  {complaint.status !== "Resolved" && (
+                    <Button
+                      size="sm"
+                      onClick={() => handleResolve(complaint.id)}
+                      className="flex items-center gap-2"
+                    >
+                      <Check className="w-4 h-4" />
+                      Resolve
+                    </Button>
+                  )}
+                </div>
               </div>
             </Card>
           ))}
