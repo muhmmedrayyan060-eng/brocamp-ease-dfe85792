@@ -15,7 +15,6 @@ import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "sonner";
 import logo from "@/assets/logo.png";
 import { Badge } from "@/components/ui/badge";
-import Footer from "@/components/Footer";
 
 const ComplaintDetail = () => {
   const navigate = useNavigate();
@@ -27,16 +26,12 @@ const ComplaintDetail = () => {
   const complaint = {
     id: id || "CMP001",
     student: "Ameer Ali",
-    phone_number: "+91 9876543210",
-    student_id: "STU2024001",
     title: "Wi-Fi not working in lab",
     description: "The Wi-Fi in the first floor lab has been down since this morning. Unable to access internet for assignments and research work.",
     category: "Technical",
     status: "In Progress",
     created_at: "2025-11-10T09:30:00Z",
     updated_at: "2025-11-10T11:00:00Z",
-    photo_url: null,
-    voice_url: null,
   };
 
   const handleUpdate = () => {
@@ -63,7 +58,7 @@ const ComplaintDetail = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background flex flex-col">
+    <div className="min-h-screen bg-background">
       {/* Header */}
       <header className="border-b border-border bg-card">
         <div className="container mx-auto px-4 py-4 flex items-center">
@@ -75,10 +70,7 @@ const ComplaintDetail = () => {
           >
             <ArrowLeft className="w-5 h-5" />
           </Button>
-          <div className="flex items-center gap-4">
-            <img src={logo} alt="Brototype" className="h-12" />
-            <span className="text-2xl font-bold text-foreground tracking-tight">BrocampSupport</span>
-          </div>
+          <img src={logo} alt="Brototype" className="h-12" />
         </div>
       </header>
 
@@ -98,57 +90,26 @@ const ComplaintDetail = () => {
           <Card className="p-6">
             <h2 className="text-2xl font-semibold mb-4">{complaint.title}</h2>
             
-            <div className="grid md:grid-cols-2 gap-4 mb-6">
+            <div className="grid md:grid-cols-3 gap-4 mb-6">
               <div className="flex items-center gap-2 text-muted-foreground">
                 <User className="w-4 h-4" />
                 <span className="text-sm">Student: <span className="text-foreground font-medium">{complaint.student}</span></span>
               </div>
               <div className="flex items-center gap-2 text-muted-foreground">
                 <Tag className="w-4 h-4" />
-                <span className="text-sm">ID: <span className="text-foreground font-medium">{complaint.student_id}</span></span>
-              </div>
-              <div className="flex items-center gap-2 text-muted-foreground">
-                <User className="w-4 h-4" />
-                <span className="text-sm">Phone: <span className="text-foreground font-medium">{complaint.phone_number}</span></span>
-              </div>
-              <div className="flex items-center gap-2 text-muted-foreground">
-                <Tag className="w-4 h-4" />
                 <span className="text-sm">Category: <span className="text-foreground font-medium">{complaint.category}</span></span>
               </div>
-              <div className="flex items-center gap-2 text-muted-foreground col-span-2">
+              <div className="flex items-center gap-2 text-muted-foreground">
                 <Calendar className="w-4 h-4" />
                 <span className="text-sm">Created: <span className="text-foreground font-medium">{new Date(complaint.created_at).toLocaleDateString()}</span></span>
               </div>
             </div>
 
-            <div className="space-y-4">
-              <div className="space-y-2">
-                <Label>Description</Label>
-                <p className="text-muted-foreground bg-secondary p-4 rounded-lg">
-                  {complaint.description}
-                </p>
-              </div>
-
-              {complaint.photo_url && (
-                <div className="space-y-2">
-                  <Label>Attached Photo</Label>
-                  <img 
-                    src={complaint.photo_url} 
-                    alt="Complaint attachment" 
-                    className="max-w-full h-64 object-cover rounded-lg border"
-                  />
-                </div>
-              )}
-
-              {complaint.voice_url && (
-                <div className="space-y-2">
-                  <Label>Voice Recording</Label>
-                  <audio controls className="w-full">
-                    <source src={complaint.voice_url} type="audio/webm" />
-                    Your browser does not support the audio element.
-                  </audio>
-                </div>
-              )}
+            <div className="space-y-2">
+              <Label>Description</Label>
+              <p className="text-muted-foreground bg-secondary p-4 rounded-lg">
+                {complaint.description}
+              </p>
             </div>
           </Card>
 
@@ -202,8 +163,6 @@ const ComplaintDetail = () => {
           </Card>
         </div>
       </main>
-
-      <Footer />
     </div>
   );
 };

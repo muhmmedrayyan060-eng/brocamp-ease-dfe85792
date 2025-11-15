@@ -1,22 +1,10 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Plus, LogOut, MessageSquare, Clock, CheckCircle, Trash2 } from "lucide-react";
+import { Plus, LogOut, MessageSquare, Clock, CheckCircle } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import logo from "@/assets/logo.png";
 import { Badge } from "@/components/ui/badge";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-} from "@/components/ui/alert-dialog";
-import { toast } from "sonner";
-import Footer from "@/components/Footer";
 
 const mockComplaints = [
   {
@@ -44,28 +32,7 @@ const mockComplaints = [
 
 const Dashboard = () => {
   const navigate = useNavigate();
-  const [complaints, setComplaints] = useState(mockComplaints);
-  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
-  const [complaintToDelete, setComplaintToDelete] = useState<string | null>(null);
-
-  const handleDeleteClick = (e: React.MouseEvent, complaintId: string, status: string) => {
-    e.stopPropagation();
-    if (status !== "Pending") {
-      toast.error("Only pending complaints can be deleted");
-      return;
-    }
-    setComplaintToDelete(complaintId);
-    setDeleteDialogOpen(true);
-  };
-
-  const handleDeleteConfirm = () => {
-    if (complaintToDelete) {
-      setComplaints(complaints.filter(c => c.id !== complaintToDelete));
-      toast.success("Complaint deleted successfully");
-      setComplaintToDelete(null);
-    }
-    setDeleteDialogOpen(false);
-  };
+  const [complaints] = useState(mockComplaints);
 
   const getStatusIcon = (status: string) => {
     switch (status) {
@@ -94,14 +61,11 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background flex flex-col">
+    <div className="min-h-screen bg-background">
       {/* Header */}
       <header className="border-b border-border bg-card">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <img src={logo} alt="Brototype" className="h-12" />
-            <span className="text-2xl font-bold text-foreground tracking-tight">BrocampSupport</span>
-          </div>
+          <img src={logo} alt="Brototype" className="h-12" />
           <Button
             variant="ghost"
             onClick={() => navigate("/")}
@@ -194,57 +158,11 @@ const Dashboard = () => {
                     <span>{complaint.created_at}</span>
                   </div>
                 </div>
-                <div className="flex gap-2">
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      navigate(`/student/complaint/${complaint.id}`);
-                    }}
-                    className="flex items-center gap-2"
-                  >
-                    <MessageSquare className="w-4 h-4" />
-                    Chat
-                  </Button>
-                  {complaint.status === "Pending" && (
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      onClick={(e) => handleDeleteClick(e, complaint.id, complaint.status)}
-                      className="text-destructive hover:text-destructive hover:bg-destructive/10"
-                    >
-                      <Trash2 className="w-5 h-5" />
-                    </Button>
-                  )}
-                </div>
               </div>
             </Card>
           ))}
         </div>
       </main>
-
-      <Footer />
-
-      <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle>Delete Complaint</AlertDialogTitle>
-            <AlertDialogDescription>
-              Are you sure you want to delete this complaint? This action cannot be undone.
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <AlertDialogAction
-              onClick={handleDeleteConfirm}
-              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
-            >
-              Delete
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
     </div>
   );
 };

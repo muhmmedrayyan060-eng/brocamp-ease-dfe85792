@@ -20,23 +20,14 @@ const Landing = () => {
           backgroundRepeat: 'no-repeat'
         }}
       >
-        <div className="absolute inset-0 bg-background/80 backdrop-blur-md" />
+        <div className="absolute inset-0 bg-background/80 backdrop-blur-sm" />
       </div>
       {/* Header */}
       <header className="border-b border-border/50 backdrop-blur-md relative z-10 bg-background/60">
         <div className="container mx-auto px-4 py-6">
-          <div className="flex items-center justify-between animate-fade-in">
-            <div className="flex items-center gap-4">
-              <img src={logo} alt="Brototype" className="h-14" />
-              <span className="text-2xl font-bold text-foreground tracking-tight">BrocampSupport</span>
-            </div>
-            <Button
-              onClick={() => navigate("/login")}
-              className="bg-accent hover:bg-accent/90 text-accent-foreground font-semibold"
-              size="lg"
-            >
-              Get Started
-            </Button>
+          <div className="flex items-center gap-4 animate-fade-in">
+            <img src={logo} alt="Brototype" className="h-14" />
+            <span className="text-2xl font-bold text-foreground tracking-tight">BrocampSupport</span>
           </div>
         </div>
       </header>
@@ -103,39 +94,9 @@ const Landing = () => {
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-border/50 relative z-10 bg-card/95 backdrop-blur-md">
-        <div className="container mx-auto px-4 py-12">
-          <div className="grid md:grid-cols-3 gap-8 mb-8">
-            <div className="space-y-4">
-              <div className="flex items-center gap-3">
-                <img src={logo} alt="Brototype" className="h-10" />
-                <span className="text-xl font-bold text-foreground">BrocampSupport</span>
-              </div>
-              <p className="text-muted-foreground text-sm leading-relaxed">
-                Your Voice Matters. We're here to help resolve your concerns quickly and efficiently.
-              </p>
-            </div>
-            <div className="space-y-4">
-              <h3 className="text-lg font-semibold text-foreground">Quick Links</h3>
-              <nav className="flex flex-col space-y-2">
-                <a href="#" className="text-muted-foreground hover:text-accent transition-colors text-sm">About Us</a>
-                <button onClick={() => navigate("/login")} className="text-muted-foreground hover:text-accent transition-colors text-sm text-left">Contact Support</button>
-                <a href="#" className="text-muted-foreground hover:text-accent transition-colors text-sm">Privacy Policy</a>
-                <a href="#" className="text-muted-foreground hover:text-accent transition-colors text-sm">Terms of Service</a>
-              </nav>
-            </div>
-            <div className="space-y-4">
-              <h3 className="text-lg font-semibold text-foreground">Contact</h3>
-              <div className="space-y-2 text-sm text-muted-foreground">
-                <p>Email: support@brototype.com</p>
-                <p>Phone: +91 123 456 7890</p>
-                <p>Hours: Mon-Fri, 9AM-6PM</p>
-              </div>
-            </div>
-          </div>
-          <div className="border-t border-border pt-8 text-center">
-            <p className="text-muted-foreground text-sm">© 2025 Brototype. Brother You Never Had. All rights reserved.</p>
-          </div>
+      <footer className="border-t border-border/50 py-8 relative z-10 bg-background/60 backdrop-blur-md">
+        <div className="container mx-auto px-4 text-center text-muted-foreground">
+          <p className="text-base font-medium">© 2025 Brototype. Brother You Never Had.</p>
         </div>
       </footer>
     </div>

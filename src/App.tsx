@@ -7,9 +7,7 @@ import Landing from "./pages/Landing";
 import Login from "./pages/Login";
 import StudentDashboard from "./pages/student/Dashboard";
 import NewComplaint from "./pages/student/NewComplaint";
-import StudentComplaintChat from "./pages/student/ComplaintChat";
 import AdminDashboard from "./pages/admin/Dashboard";
-import AdminComplaintChat from "./pages/admin/ComplaintChat";
 import ComplaintDetail from "./pages/admin/ComplaintDetail";
 import NotFound from "./pages/NotFound";
 
@@ -26,10 +24,9 @@ const App = () => (
           <Route path="/login" element={<Login />} />
           <Route path="/student/dashboard" element={<StudentDashboard />} />
           <Route path="/student/new-complaint" element={<NewComplaint />} />
-          <Route path="/student/complaint/:id" element={<StudentComplaintChat />} />
+          <Route path="/student/complaint/:id" element={<ComplaintDetail />} />
           <Route path="/admin/dashboard" element={<AdminDashboard />} />
           <Route path="/admin/complaint/:id" element={<ComplaintDetail />} />
-          <Route path="/admin/complaint/:id/chat" element={<AdminComplaintChat />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

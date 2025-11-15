@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { LogOut, MessageSquare, Clock, CheckCircle, Filter, Check, AlertCircle } from "lucide-react";
+import { LogOut, MessageSquare, Clock, CheckCircle, Filter } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import logo from "@/assets/logo.png";
 import { Badge } from "@/components/ui/badge";
@@ -12,8 +12,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { toast } from "sonner";
-import Footer from "@/components/Footer";
 
 const mockComplaints = [
   {
@@ -52,26 +50,8 @@ const mockComplaints = [
 
 const AdminDashboard = () => {
   const navigate = useNavigate();
-  const [complaints, setComplaints] = useState(mockComplaints);
+  const [complaints] = useState(mockComplaints);
   const [statusFilter, setStatusFilter] = useState<string>("all");
-
-  const handleResolve = (complaintId: string) => {
-    setComplaints(
-      complaints.map((c) =>
-        c.id === complaintId ? { ...c, status: "Resolved" } : c
-      )
-    );
-    toast.success("Complaint resolved! OTP sent to student via SMS/Email.");
-  };
-
-  const handleStatusChange = (complaintId: string, newStatus: string) => {
-    setComplaints(
-      complaints.map((c) =>
-        c.id === complaintId ? { ...c, status: newStatus } : c
-      )
-    );
-    toast.success(`Status updated to ${newStatus}! OTP notification sent to student.`);
-  };
 
   const filteredComplaints = statusFilter === "all" 
     ? complaints 
@@ -104,13 +84,12 @@ const AdminDashboard = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background flex flex-col">
+    <div className="min-h-screen bg-background">
       {/* Header */}
       <header className="border-b border-border bg-card">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <div className="flex items-center gap-4">
             <img src={logo} alt="Brototype" className="h-12" />
-            <span className="text-2xl font-bold text-foreground tracking-tight">BrocampSupport</span>
             <Badge className="bg-accent text-accent-foreground">Admin</Badge>
           </div>
           <Button
@@ -224,52 +203,14 @@ const AdminDashboard = () => {
                     <span>{complaint.created_at}</span>
                   </div>
                 </div>
-                <div className="flex gap-2" onClick={(e) => e.stopPropagation()}>
-                  <Select
-                    value={complaint.status}
-                    onValueChange={(value) => handleStatusChange(complaint.id, value)}
-                  >
-                    <SelectTrigger className="w-[140px]">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="Pending">
-                        <div className="flex items-center gap-2">
-                          <AlertCircle className="w-4 h-4" />
-                          Pending
-                        </div>
-                      </SelectItem>
-                      <SelectItem value="In Progress">
-                        <div className="flex items-center gap-2">
-                          <Clock className="w-4 h-4" />
-                          In Progress
-                        </div>
-                      </SelectItem>
-                      <SelectItem value="Resolved">
-                        <div className="flex items-center gap-2">
-                          <CheckCircle className="w-4 h-4" />
-                          Resolved
-                        </div>
-                      </SelectItem>
-                    </SelectContent>
-                  </Select>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => navigate(`/admin/complaint/${complaint.id}/chat`)}
-                    className="flex items-center gap-2"
-                  >
-                    <MessageSquare className="w-4 h-4" />
-                    Chat
-                  </Button>
-                </div>
+                <Button variant="outline" size="sm">
+                  View Details
+                </Button>
               </div>
             </Card>
           ))}
         </div>
       </main>
-
-      <Footer />
     </div>
   );
 };
