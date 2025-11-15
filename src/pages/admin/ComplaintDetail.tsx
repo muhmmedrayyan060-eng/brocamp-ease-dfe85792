@@ -70,7 +70,10 @@ const ComplaintDetail = () => {
           >
             <ArrowLeft className="w-5 h-5" />
           </Button>
-          <img src={logo} alt="Brototype" className="h-12" />
+          <div className="flex items-center gap-4">
+            <img src={logo} alt="Brototype" className="h-12" />
+            <span className="text-2xl font-bold text-foreground tracking-tight">BrocampSupport</span>
+          </div>
         </div>
       </header>
 
