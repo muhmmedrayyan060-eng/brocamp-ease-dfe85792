@@ -11,7 +11,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { ArrowLeft, CheckCircle } from "lucide-react";
+import { ArrowLeft, CheckCircle, Mic, MicOff, Upload, X } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import logo from "@/assets/logo.png";
@@ -37,14 +37,51 @@ const NewComplaint = () => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [category, setCategory] = useState("");
+  const [studentName, setStudentName] = useState("");
+  const [idNumber, setIdNumber] = useState("");
+  const [photo, setPhoto] = useState<File | null>(null);
+  const [audioBlob, setAudioBlob] = useState<Blob | null>(null);
+  const [isRecording, setIsRecording] = useState(false);
+  const [mediaRecorder, setMediaRecorder] = useState<MediaRecorder | null>(null);
   const [successDialogOpen, setSuccessDialogOpen] = useState(false);
   const [complaintId, setComplaintId] = useState("");
+
+  const startRecording = async () => {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      const recorder = new MediaRecorder(stream);
+      const chunks: BlobPart[] = [];
+
+      recorder.ondataavailable = (e) => chunks.push(e.data);
+      recorder.onstop = () => {
+        const blob = new Blob(chunks, { type: "audio/webm" });
+        setAudioBlob(blob);
+        stream.getTracks().forEach(track => track.stop());
+      };
+
+      recorder.start();
+      setMediaRecorder(recorder);
+      setIsRecording(true);
+      toast.success("Recording started");
+    } catch (error) {
+      toast.error("Could not access microphone");
+    }
+  };
+
+  const stopRecording = () => {
+    if (mediaRecorder) {
+      mediaRecorder.stop();
+      setIsRecording(false);
+      setMediaRecorder(null);
+      toast.success("Recording stopped");
+    }
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!title || !description || !category) {
-      toast.error("Please fill all fields");
+    if (!title || !description || !category || !studentName || !idNumber) {
+      toast.error("Please fill all required fields");
       return;
     }
 
@@ -85,6 +122,30 @@ const NewComplaint = () => {
 
         <Card className="p-8">
           <form onSubmit={handleSubmit} className="space-y-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="space-y-2">
+                <Label htmlFor="studentName">Student Name *</Label>
+                <Input
+                  id="studentName"
+                  placeholder="Enter your full name"
+                  value={studentName}
+                  onChange={(e) => setStudentName(e.target.value)}
+                  required
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="idNumber">ID Number *</Label>
+                <Input
+                  id="idNumber"
+                  placeholder="Enter your ID number"
+                  value={idNumber}
+                  onChange={(e) => setIdNumber(e.target.value)}
+                  required
+                />
+              </div>
+            </div>
+
             <div className="space-y-2">
               <Label htmlFor="title">Complaint Title *</Label>
               <Input
@@ -122,6 +183,76 @@ const NewComplaint = () => {
                 rows={8}
                 required
               />
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="photo">Upload Photo (Optional)</Label>
+              <div className="flex items-center gap-4">
+                <Input
+                  id="photo"
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) => setPhoto(e.target.files?.[0] || null)}
+                  className="flex-1"
+                />
+                {photo && (
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="icon"
+                    onClick={() => setPhoto(null)}
+                  >
+                    <X className="w-4 h-4" />
+                  </Button>
+                )}
+              </div>
+              {photo && (
+                <p className="text-sm text-muted-foreground">
+                  Selected: {photo.name}
+                </p>
+              )}
+            </div>
+
+            <div className="space-y-2">
+              <Label>Voice Recording (Optional)</Label>
+              <div className="flex items-center gap-4">
+                {!isRecording ? (
+                  <Button
+                    type="button"
+                    variant="outline"
+                    onClick={startRecording}
+                    className="flex items-center gap-2"
+                  >
+                    <Mic className="w-4 h-4" />
+                    Start Recording
+                  </Button>
+                ) : (
+                  <Button
+                    type="button"
+                    variant="destructive"
+                    onClick={stopRecording}
+                    className="flex items-center gap-2"
+                  >
+                    <MicOff className="w-4 h-4" />
+                    Stop Recording
+                  </Button>
+                )}
+                {audioBlob && !isRecording && (
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="icon"
+                    onClick={() => setAudioBlob(null)}
+                  >
+                    <X className="w-4 h-4" />
+                  </Button>
+                )}
+              </div>
+              {audioBlob && (
+                <p className="text-sm text-muted-foreground">
+                  Recording saved ({(audioBlob.size / 1024).toFixed(2)} KB)
+                </p>
+              )}
             </div>
 
             <div className="flex gap-4">
@@ -173,6 +304,10 @@ const NewComplaint = () => {
                 setTitle("");
                 setDescription("");
                 setCategory("");
+                setStudentName("");
+                setIdNumber("");
+                setPhoto(null);
+                setAudioBlob(null);
               }}
               className="w-full"
             >
